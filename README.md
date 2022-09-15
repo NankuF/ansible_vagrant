@@ -1,9 +1,9 @@
 # Учим vagrant и ansible
-Развертывает несколько виртуальных машин, и на одной из них поднимает контейнеры.
-Результат:
+Развертывает несколько виртуальных машин, и на одной из них поднимает контейнеры.<br>
+### Результат:
 1. Запущены три виртуальных машины
 2. Софт на данных машинах обновлен
-3. Запущены приложения в докер-контейнерах хосте `social_bots`
+3. Запущены приложения в докер-контейнерах на хосте `social_bots`
 
 ### Порядок установки
 1. Скачать проект
@@ -85,7 +85,8 @@ host_key_checking = False
 ```commandline
 ansible vagrant1 -m ping && ansible rdb -m ping && ansible social_bots -m ping 
 ```
-5. Запустить `playbook.yml`
+5. В `playbooks/roles/social_bots/files/env` разместить файлы `tg_secrets.env` и `vk_secrets.env`
+6. Запустить `playbook.yml`
 ```commandline
 ansible-playbook playbook.yml
 ```
