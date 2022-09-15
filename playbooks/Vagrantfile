@@ -7,19 +7,28 @@ Vagrant.configure("2") do |config|
 
   config.vm.box = "ubuntu-jammy64"
 
+  config.vm.define "social_bots" do |social_bots|
+    social_bots.vm.box = "ubuntu-jammy64"
+    social_bots.vm.network "forwarded_port", guest: 80, host: 8080
+    social_bots.vm.network "forwarded_port", guest: 443, host: 8443
+  end
+  config.vm.define "rdb" do |rdb|
+    rdb.vm.box = "ubuntu-jammy64"
+    rdb.vm.network "forwarded_port", guest: 80, host: 8081
+    rdb.vm.network "forwarded_port", guest: 443, host: 8444
+  end
   config.vm.define "vagrant1" do |vagrant1|
     vagrant1.vm.box = "ubuntu-jammy64"
-    vagrant1.vm.network "forwarded_port", guest: 80, host: 8080
-    vagrant1.vm.network "forwarded_port", guest: 443, host: 8443
-  end
-  config.vm.define "vagrant2" do |vagrant2|
-    vagrant2.vm.box = "ubuntu-jammy64"
-    vagrant2.vm.network "forwarded_port", guest: 80, host: 8081
-    vagrant2.vm.network "forwarded_port", guest: 443, host: 8444
-  end
-  config.vm.define "vagrant3" do |vagrant3|
-    vagrant3.vm.box = "ubuntu-jammy64"
-    vagrant3.vm.network "forwarded_port", guest: 80, host: 8082
-    vagrant3.vm.network "forwarded_port", guest: 443, host: 8445
+    vagrant1.vm.network "forwarded_port", guest: 80, host: 8082
+    vagrant1.vm.network "forwarded_port", guest: 443, host: 8445
+    vagrant1.vm.provision "ansible" do |ansible|
+        ansible.limit = "all"
+        ansible.playbook = "playbook.yml"
+        ansible.groups = {
+        "vagrant" => ["vagrant1"],
+        "bots" => ["social_bots"],
+        "db" => ["rdb"]
+        }
+    end
   end
 end

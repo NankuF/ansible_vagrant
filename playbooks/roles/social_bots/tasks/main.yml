@@ -1,0 +1,10 @@
+- name: Create dirs
+  ansible.builtin.file:
+    path: "{{item}}"
+    state: directory
+  loop:
+    - apps/comics_vk_bot/env
+    - apps/nasa_telegram_bot/env
+
+- include_tasks: comics_vk_bot.yml
+- include_tasks: nasa_telegram_bot.yml

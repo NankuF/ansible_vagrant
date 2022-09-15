@@ -1,0 +1,12 @@
+- name: Preparation of servers
+  hosts: all
+  become: true
+  roles:
+    - upgrade_servers
+    - install_soft
+
+- name: Install bots
+  hosts: bots
+  become: true
+  roles:
+    - social_bots

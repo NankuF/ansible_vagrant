@@ -1,0 +1,12 @@
+- name: Install a list of packages
+  ansible.builtin.apt:
+    pkg:
+      - pip
+      - docker.io
+    state: latest
+
+- name: Install libraries
+  ansible.builtin.pip:
+    name:
+      - requests
+      - docker

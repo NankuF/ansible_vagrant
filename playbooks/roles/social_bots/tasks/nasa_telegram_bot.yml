@@ -1,0 +1,11 @@
+# Launch NASA telegram bot
+- name: Copy file
+  ansible.builtin.copy:
+    src: env/tg_secrets.env
+    dest: apps/nasa_telegram_bot/env/tg_secrets.env
+
+- name: Start a container and use an env file
+  community.docker.docker_container:
+    name: nasa_telegram_bot
+    image: nanku/nasa_telegram_bot
+    env_file: apps/nasa_telegram_bot/env/tg_secrets.env

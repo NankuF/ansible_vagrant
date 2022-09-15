@@ -1,0 +1,11 @@
+# Launch comics vk bot
+- name: Copy file
+  ansible.builtin.copy:
+    src: env/vk_secrets.env
+    dest: apps/comics_vk_bot/env/vk_secrets.env
+
+- name: Start a container and use an env file
+  community.docker.docker_container:
+    name: sending_comics_in_vk
+    image: nanku/sending_comics_in_vk
+    env_file: apps/comics_vk_bot/env/vk_secrets.env
